@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final JwtFliter jwtFliter;
-    private final String[] ALLOWED_ENDPOINTS = {"/signup/**", "/login/**"};
+    private final String[] ALLOWED_ENDPOINTS = {"/swagger-ui.html", "/signup/**", "/login/**"};
 
 
     public SecurityConfig(UserDetailsService userDetailsService, JwtFliter jwtFliter) {
