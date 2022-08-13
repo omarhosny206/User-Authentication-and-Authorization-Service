@@ -3,7 +3,7 @@
 ## Service Functionality:
 
 - Login and Signup services.
-- Ability to have multiple roles.
+- Ability to have multiple roles for a user.
 - Username and Password based Authentication.
 - Authorization based on the roles of the user.
 - Authorization was done using JWT(Json Web Token).
