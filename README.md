@@ -8,6 +8,8 @@
 - Authorization based on the roles of the user.
 - Authorization was done using JWT(Json Web Token).
 
+![WhatsApp Image 2022-08-13 at 7 58 10 PM](https://user-images.githubusercontent.com/58389695/184505447-2a1830f3-8f72-4910-8270-b7d812d6e416.jpeg)
+
 ## **Start using it now** 🚀🚀
 You can see the API documentation through: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
