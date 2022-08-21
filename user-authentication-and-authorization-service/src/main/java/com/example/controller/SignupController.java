@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.dto.UserDto;
 import com.example.model.User;
 import com.example.service.SignupService;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class SignupController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<String> signup(@RequestBody User user) {
-        return ResponseEntity.ok(signupService.signup(user));
+    public ResponseEntity<String> signup(@RequestBody UserDto userDto) {
+        return ResponseEntity.ok(signupService.signup(userDto));
     }
 }

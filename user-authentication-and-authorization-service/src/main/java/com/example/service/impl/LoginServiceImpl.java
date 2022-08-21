@@ -1,7 +1,8 @@
-package com.example.service;
+package com.example.service.impl;
 
-import com.example.model.LoginRequest;
-import com.example.model.LoginResponse;
+import com.example.dto.LoginRequest;
+import com.example.dto.LoginResponse;
+import com.example.service.LoginService;
 import com.example.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;

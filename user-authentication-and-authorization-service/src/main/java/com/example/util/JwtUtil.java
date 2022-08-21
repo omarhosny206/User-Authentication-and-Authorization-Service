@@ -1,5 +1,6 @@
 package com.example.util;
 
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -8,25 +9,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
-    private final String CLAIMS_SUBJECT = "sub";
-    private final String CLAIMS_CREATED = "created";
     @Value("${auth.jwt.secret}")
     private String TOKEN_SECRET;
     @Value("${auth.jwt.expiration}")
     private long TOKEN_EXPIRATION;
 
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = getClaims(userDetails);
         Date expirationDate = getExpirationDate();
 
         return Jwts.builder()
-                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, TOKEN_SECRET)
                 .compact();
@@ -37,15 +34,8 @@ public class JwtUtil {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    private Map<String, Object> getClaims(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIMS_SUBJECT, userDetails.getUsername());
-        claims.put(CLAIMS_CREATED, new Date());
-        return claims;
-    }
-
     private Date getExpirationDate() {
-        return new Date(System.currentTimeMillis() + TOKEN_EXPIRATION * 1000);
+        return new Date((new Date()).getTime() + TOKEN_EXPIRATION);
     }
 
     public String getUserName(String token) {

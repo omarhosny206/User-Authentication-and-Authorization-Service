@@ -1,8 +1,9 @@
-package com.example.service;
+package com.example.service.impl;
 
-import com.example.model.CustomUserDetails;
+import com.example.dto.CustomUserDetails;
 import com.example.model.User;
 import com.example.repository.UserRepository;
+import com.example.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,6 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User getByUserName(String userName) throws UsernameNotFoundException {
         log.info("Getting a user with username={}", userName);
-        return userRepository.findByUserName(userName);
+        return userRepository.findByUsername(userName);
     }
 }
