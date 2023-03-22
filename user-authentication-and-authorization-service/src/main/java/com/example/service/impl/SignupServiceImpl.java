@@ -1,52 +1,51 @@
 package com.example.service.impl;
 
-import com.example.dto.UserDto;
+import com.example.dto.SignupRequest;
+import com.example.exception.ApiError;
 import com.example.model.Role;
 import com.example.model.User;
-import com.example.repository.RoleRepository;
-import com.example.repository.UserRepository;
+import com.example.service.RoleService;
 import com.example.service.SignupService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
+import com.example.service.UserService;
+import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
-
+@Transactional
 @Service
-@Slf4j
 public class SignupServiceImpl implements SignupService {
-    private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
+    private final UserService userService;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    public SignupServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+    public SignupServiceImpl(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
+        this.userService = userService;
+        this.roleService = roleService;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public String signup(UserDto userDto) {
-        User user = new User();
-        Set<Role> roles = new HashSet<>();
+    public User signup(SignupRequest signupRequest) {
+        User savedUser = userService.getByEmailOrNull(signupRequest.email());
+        Role savedRole = roleService.getByName(signupRequest.role());
 
-        log.info("making sign up for a user with username={}, email={} and phone-number={}", userDto.getUsername(), userDto.getEmail(), userDto.getPhoneNumber());
+        if (savedUser != null) {
+            throw ApiError.badRequest("This email already exists, choose another one");
+        }
 
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        User user = new User(signupRequest.firstName(),
+                signupRequest.lastName(),
+                signupRequest.email(),
+                signupRequest.password(),
+                savedRole);
+        System.out.println(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(savedRole);
 
-        userDto.getRoles().forEach(r -> {
-            Role role =  roleRepository.findByName(r);
-            if(role != null)
-                roles.add(role);
-        });
-
-        user.setRoles(roles);
-        BeanUtils.copyProperties(userDto, user);
-        System.out.println("HELLO --> " + userDto);
-        System.out.println("HELLO --> " + user);
-        userRepository.save(user);
-        return "signed up successfully";
+        User storedUser = userService.save(user);
+        return storedUser;
     }
 }

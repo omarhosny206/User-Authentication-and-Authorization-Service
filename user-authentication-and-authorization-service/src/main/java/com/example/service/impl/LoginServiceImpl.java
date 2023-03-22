@@ -2,13 +2,14 @@ package com.example.service.impl;
 
 import com.example.dto.LoginRequest;
 import com.example.dto.LoginResponse;
+import com.example.model.User;
 import com.example.service.LoginService;
+import com.example.util.AuthenticationUser;
 import com.example.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
@@ -26,24 +27,20 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public LoginResponse login(LoginRequest loginRequest) throws Exception {
-        log.info("making log in for user with username={}", loginRequest.getUserName());
-        String userName = loginRequest.getUserName();
-        String password = loginRequest.getPassword();
+    public LoginResponse login(LoginRequest loginRequest) {
+        System.out.println("LOGIN2");
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.email(),
+                        loginRequest.password()
+                )
+        );
 
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    userName,
-                    password
-            ));
-        } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password", e);
-        }
+        System.out.println(authentication);
 
-        log.info("authenticating and generating JWT for user with username={}", loginRequest.getUserName());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
-        String jwt = jwtUtil.generateToken(userDetails);
-
-        return new LoginResponse(jwt);
+        User user = AuthenticationUser.get(authentication);
+        String accessToken = jwtUtil.generateAccessToken(user.getEmail());
+        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+        return new LoginResponse(user, accessToken, refreshToken);
     }
 }

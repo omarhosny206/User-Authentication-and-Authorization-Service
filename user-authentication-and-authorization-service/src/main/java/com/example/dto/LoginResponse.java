@@ -1,12 +1,13 @@
 package com.example.dto;
 
+import com.example.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class LoginResponse {
-    private String jwt;
+public record LoginResponse(
+        User user,
+        String accessToken,
+        String refreshToken
+) {
 }

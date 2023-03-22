@@ -1,18 +1,28 @@
 package com.example.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private String username;
-    private String password;
+    @NotEmpty
+    private String firstName;
+
+    @NotEmpty
+    private String lastName;
+
+    @NotEmpty
+    @Email
     private String email;
-    private String phoneNumber;
-    private Set<String> roles;
+
+    @NotEmpty
+    private String password;
+
+    @NotEmpty
+    private String role;
 }
