@@ -3,23 +3,76 @@
 ## Service Functionality:
 
 - Login and Signup services.
-- Ability to have multiple roles for a user.
+- Each user has a specific role either ***ROLE_ADMIN*** or ***ROLE_CUSTOMER***
 - Username and Password based Authentication.
-- Authorization based on the roles of the user.
-- Authorization was done using JWT(Json Web Token).
-
-![user_auth](https://user-images.githubusercontent.com/58389695/185889270-b08bd1e5-c29d-4273-a5d3-392608e63d3d.png)
+- Role based **Authorization**.
+- Used **JWT**(Json Web Token) for **Authentication** *&* **Authorization**.
 
 ## **Start using it now** 🚀🚀
-You can see the API documentation through: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+You can see the API documentation through: [link](http://localhost:8080/swagger-ui/index.html)
 
 
-## Database Design:
-![WhatsApp Image 2022-08-13 at 7 37 10 PM](https://user-images.githubusercontent.com/58389695/184504844-f5d7a3d2-9068-4b06-b43b-74bf4e6337ee.jpeg)
+```
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── example
+    │   │           ├── config
+    │   │           │   ├── BeanConfig.java
+    │   │           │   └── SecurityConfig.java
+    │   │           ├── controller
+    │   │           │   ├── LoginController.java
+    │   │           │   ├── SignupController.java
+    │   │           │   └── UserController.java
+    │   │           ├── dto
+    │   │           │   ├── CustomUser.java
+    │   │           │   ├── ErrorDto.java
+    │   │           │   ├── LoginRequest.java
+    │   │           │   ├── LoginResponse.java
+    │   │           │   ├── SignupRequest.java
+    │   │           │   └── UserDto.java
+    │   │           ├── exception
+    │   │           │   ├── ApiError.java
+    │   │           │   ├── CustomAuthenticationEntryPoint.java
+    │   │           │   ├── CustomExceptionHandler.java
+    │   │           │   └── CustomException.java
+    │   │           ├── filter
+    │   │           │   └── JwtAuthenticationFilter.java
+    │   │           ├── model
+    │   │           │   ├── Role.java
+    │   │           │   └── User.java
+    │   │           ├── repository
+    │   │           │   ├── RoleRepository.java
+    │   │           │   └── UserRepository.java
+    │   │           ├── service
+    │   │           │   ├── impl
+    │   │           │   │   ├── LoginServiceImpl.java
+    │   │           │   │   ├── RoleServiceImpl.java
+    │   │           │   │   ├── SignupServiceImpl.java
+    │   │           │   │   └── UserServiceImpl.java
+    │   │           │   ├── LoginService.java
+    │   │           │   ├── RoleService.java
+    │   │           │   ├── SignupService.java
+    │   │           │   └── UserService.java
+    │   │           ├── UserAuthenticationAndAuthorizationServiceApplication.java
+    │   │           └── util
+    │   │               ├── AuthenticationUser.java
+    │   │               └── JwtUtil.java
+    │   └── resources
+    │       └── application.properties
+```
+
+---
+## **Database Design**
+![db_design](https://user-images.githubusercontent.com/58389695/227189157-812f7b71-b540-473a-b215-65fdfb4903dd.PNG)
 
 ## Tech Stack:
 - Programming Language: Java 17
-- Backend Framework: Spring Boot v2.7.2
+- Backend Framework: Spring Boot v3.0.1
 - ORM: Hibernate 
 - Database Engine: PostgreSQL
 - API Documentation: Swagger via OpenApi 3.0
