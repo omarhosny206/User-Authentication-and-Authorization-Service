@@ -1,15 +1,15 @@
 # User Authentication and Authorization Service 🚀
 
-## Service Functionality:
+## **Service Functionality 🧠**
 
 - Login and Signup services.
 - Each user has a specific role either ***ROLE_ADMIN*** or ***ROLE_CUSTOMER***
-- Username and Password based Authentication.
+- Username and Password based **Authentication**.
 - Role based **Authorization**.
 - Used **JWT**(Json Web Token) for **Authentication** *&* **Authorization**.
 
 ## **Start using it now** 🚀🚀
-You can see the API documentation through: [link](http://localhost:8080/swagger-ui/index.html)
+You can see the API documentation through: [*link*](http://localhost:8080/swagger-ui/index.html)
 
 
 ```
@@ -70,7 +70,7 @@ You can see the API documentation through: [link](http://localhost:8080/swagger-
 ## **Database Design**
 ![db_design](https://user-images.githubusercontent.com/58389695/227189157-812f7b71-b540-473a-b215-65fdfb4903dd.PNG)
 
-## Tech Stack:
+## **Tech Stack**
 - Programming Language: Java 17
 - Backend Framework: Spring Boot v3.0.1
 - ORM: Hibernate 
@@ -90,6 +90,6 @@ You can see the API documentation through: [link](http://localhost:8080/swagger-
 ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)
 
 
-## **Features to add in the future** 🚀:
+## **Features to add in the future** 🚀
 - Adding OAuth 2.0.
 - Signup with Google, Facebook and other platforms.
