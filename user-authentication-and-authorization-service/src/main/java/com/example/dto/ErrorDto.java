@@ -1,4 +1,12 @@
 package com.example.dto;
 
-public record ErrorDto(String message) {
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ErrorDto {
+    private String message;
 }

@@ -29,19 +29,14 @@ public class SignupServiceImpl implements SignupService {
 
     @Override
     public User signup(SignupRequest signupRequest) {
-        User savedUser = userService.getByEmailOrNull(signupRequest.email());
-        Role savedRole = roleService.getByName(signupRequest.role());
+        User savedUser = userService.getByEmailOrNull(signupRequest.getEmail());
+        Role savedRole = roleService.getByName(signupRequest.getRole());
 
         if (savedUser != null) {
             throw ApiError.badRequest("This email already exists, choose another one");
         }
 
-        User user = new User(signupRequest.firstName(),
-                signupRequest.lastName(),
-                signupRequest.email(),
-                signupRequest.password(),
-                savedRole);
-        System.out.println(user);
+        User user = modelMapper.map(signupRequest, User.class);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(savedRole);
 

@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public record LoginResponse(
-        User user,
-        String accessToken,
-        String refreshToken
-) {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class LoginResponse {
+    private User user;
+    private String accessToken;
+    private String refreshToken;
 }

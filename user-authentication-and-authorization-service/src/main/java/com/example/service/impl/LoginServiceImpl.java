@@ -28,11 +28,10 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public LoginResponse login(LoginRequest loginRequest) {
-        System.out.println("LOGIN2");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.email(),
-                        loginRequest.password()
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
                 )
         );
 
