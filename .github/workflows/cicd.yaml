@@ -1,0 +1,40 @@
+name: CICD Pipeline/Workflow
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  ci-build-and-push-docker-image:
+    runs-on: ubuntu-latest
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Login to docker
+        run: docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_TOKEN
+      - name: Build docker image
+        run: |
+          docker build -t $DOCKERHUB_USERNAME/user-authentication-and-authorization-service:${{ github.sha }} .
+          docker build -t $DOCKERHUB_USERNAME/user-authentication-and-authorization-service:latest .
+      - name: Push docker image to dockerhub
+        run: |
+          docker push $DOCKERHUB_USERNAME/user-authentication-and-authorization-service:${{ github.sha }}
+          docker push $DOCKERHUB_USERNAME/user-authentication-and-authorization-service:latest
+  cd-deploy-container-to-ec2:
+    runs-on: self-hosted  # Note: you can replace "self-hosted" with the label of your self-hosted runner
+    env:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+    needs: ci-build-and-push-docker-image
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Remove existing docker containers
+        run: docker rm -f $(docker ps -aq | grep -vE "$(docker ps -aq -f "name=runner|postgres")") || true
+      - name: Delete existing docker images
+        run: docker rmi -f $(docker image ls -q --format '{{.Repository}}:{{.Tag}}' | grep -vE "runner|postgres") || true
+      - name: Run docker containers
+        run: docker-compose up -d --build

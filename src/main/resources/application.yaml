@@ -1,0 +1,27 @@
+spring:
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:postgresql://${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:postgres}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  flyway:
+    enabled: ${FLYWAY_ENABLED:true}
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+access:
+  token:
+    expiration: ${ACCESS_TOKEN_EXPIRATION:86400000}
+    secret:
+      key: ${ACCESS_TOKEN_SECRET_KEY:09f26e402586e2faa8da4c98a35f1b20d6b033c6097befa8be3486a829587fe2f90a832bd3ff9d42710a4da095a2ce285b009f0c3730cd9b8e1af3eb84df6611}
+refresh:
+  token:
+    expiration: ${REFRESH_TOKEN_EXPIRATION:31556926000}
+    secret:
+      key: ${REFRESH_TOKEN_SECRET_KEY:95a2ce285b009ff1b20d6b0e34a832fe2f909f26e402586e2faa8da4c9bd3ff9d42710a33c6097befa8b4da00c3730cd9b8e1af3eb84df661186a8295878a350}
+
