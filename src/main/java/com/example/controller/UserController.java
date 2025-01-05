@@ -35,9 +35,9 @@ public class UserController {
 
     @GetMapping("/me")
     @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
-    public ResponseEntity<User> getById(@RequestParam(required = true) String email, Authentication authentication) {
+    public ResponseEntity<User> getProfile(Authentication authentication) {
         User authenticatedUser = AuthenticationUser.get(authentication);
         System.out.println("AUTHENTICATED_USER: " + authenticatedUser);
-        return ResponseEntity.ok().body(userService.getByEmail(email));
+        return ResponseEntity.ok().body(userService.getByEmail(authenticatedUser.getEmail()));
     }
 }
