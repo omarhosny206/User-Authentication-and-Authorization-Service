@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getById(id));
     }
 
-    @GetMapping("/me")
+    @GetMapping("/profile")
     @PreAuthorize("hasAnyRole('ROLE_CUSTOMER', 'ROLE_ADMIN')")
     public ResponseEntity<User> getProfile(Authentication authentication) {
         User authenticatedUser = AuthenticationUser.get(authentication);
