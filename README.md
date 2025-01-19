@@ -1,5 +1,6 @@
 # User Authentication and Authorization Service 🚀
 
+
 ## **Service Functionality 🧠**
 
 - Login and Signup services.
